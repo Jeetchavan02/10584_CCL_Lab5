@@ -11,7 +11,8 @@ https://docs.djangoproject.com/en/stable/ref/settings/
 """
 
 import os
-
+import pymysql
+pymysql.install_as_MySQLdb()
 import dj_database_url
 
 # Build paths inside the project like this: os.path.join(PROJECT_DIR, ...)
@@ -33,6 +34,7 @@ ALLOWED_HOSTS = []
 # INTERNAL_IPS = [
 #     '127.0.0.1',
 # ]
+
 
 # Application definition
 
@@ -94,6 +96,7 @@ MIDDLEWARE = [
 ]
 
 DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
+
 ROOT_URLCONF = "bakerydemo.urls"
 
 TEMPLATES = [
@@ -117,24 +120,21 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "bakerydemo.wsgi.application"
 
-
 # Database
-# https://docs.djangoproject.com/en/stable/ref/settings/#databases
-
-if "DATABASE_URL" in os.environ:
-    DATABASES = {"default": dj_database_url.config(conn_max_age=500)}
-    if os.environ["DATABASE_URL"].startswith("postgres://"):
-        INSTALLED_APPS.append("django.contrib.postgres")
-else:
-    DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.sqlite3",
-            "NAME": os.path.join(
-                BASE_DIR, os.environ.get("DATABASE_NAME", "bakerydemodb")
-            ),
-        }
+# Updated to use AWS RDS MySQL
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'college_registration',
+        'USER': 'admin',
+        'PASSWORD': 'Jeet2nnc22',
+        'HOST': 'college-registration-db.csjcgcs0onzk.us-east-1.rds.amazonaws.com',
+        'PORT': '3306',
+        'OPTIONS': {
+            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+        },
     }
-
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/stable/ref/settings/#auth-password-validators
@@ -154,7 +154,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/stable/topics/i18n/
 
@@ -165,7 +164,6 @@ TIME_ZONE = "UTC"
 USE_I18N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/stable/howto/static-files/
@@ -231,11 +229,6 @@ LOGGING = {
             "propagate": False,
         },
         "wagtail": {
-            "handlers": ["console"],
-            "level": "INFO",
-            "propagate": False,
-        },
-        "django.request": {
             "handlers": ["console"],
             "level": "WARNING",
             "propagate": False,
@@ -307,3 +300,4 @@ if "CSP_DEFAULT_SRC" in os.environ:
         CSP_FRAME_SRC = os.environ.get("CSP_FRAME_SRC").split(",")
     if "CSP_REPORT_URI" in os.environ:
         CSP_REPORT_URI = os.environ.get("CSP_REPORT_URI")
+ALLOWED_HOSTS = ['*']
