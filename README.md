@@ -1,7 +1,7 @@
 # Cloud Computing Lab 5: AWS RDS & NoSQL
 
-## Assignment 1: AWS RDS (PostgreSQL) Integration
-* **Database:** PostgreSQL on AWS RDS (`us-east-1`, `db.t3.micro`).
+## Assignment 1: AWS RDS (MySQL) Integration
+* **Database:** MySQL on AWS RDS (`us-east-1`, `db.t3.micro`).
 * **Security:** RDS inbound rules restricted to the EC2 Security Group.
 * **Application:** Wagtail Admin connected to RDS, successfully performing Create, Read, Update, and Delete (CRUD).
 
